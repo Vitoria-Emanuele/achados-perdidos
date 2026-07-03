@@ -2,7 +2,7 @@
 
 Sistema centralizado para gestão de itens achados e perdidos no Centro de Informática da UFPB.
 
-🔗 **Site (em desenvolvimento):** https://achados-perdidos-one.vercel.app
+🔗 **Site (em desenvolvimento):** https://achados-perdidos-blue.vercel.app/
 
 ## Status
 🚧 Em desenvolvimento — projeto acadêmico da disciplina de Engenharia de Software.
