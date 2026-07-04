@@ -1,7 +1,7 @@
-import ItemCard from '@/app/components/ItemCard'
+import ItemCard from '@/components/ItemCard'
 import { ItemAchado } from '@/lib/types'
 
-// Aqui eh so teste para aparecer o card no mural
+// Aqui eh o um teste para aparecer itens no mural
 const itensFicticios: ItemAchado[] = [
   {
     id: '1',
@@ -51,7 +51,7 @@ export default function Home() {
         Mural de Achados e Perdidos
       </h1>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {itensFicticios.map((item) => (
           <ItemCard key={item.id} item={item} />
         ))}
