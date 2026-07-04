@@ -1,46 +1,18 @@
 import ItemCard from '@/app/components/ItemCard'
+import { createServerClient } from '@/lib/supabase-server'
 import { ItemAchado } from '@/lib/types'
 
-const itensFicticios: ItemAchado[] = [
-  {
-    id: '1',
-    titulo: 'Carteira de couro marrom',
-    categoria: 'documentos',
-    foto_url: 'https://placehold.co/400x300/001B2E/FFFFFF?text=Foto',
-    descricao: '',
-    local_encontrado: 'Bloco B, sala 12',
-    data_horario_achado: '2026-07-01T10:00:00',
-    status: 'aguardando',
-    visibilidade_publica: true,
-    cadastrado_por: '',
-  },
-  {
-    id: '2',
-    titulo: 'Fone de ouvido Bluetooth',
-    categoria: 'eletrônicos',
-    foto_url: 'https://placehold.co/400x300/00B4FA/FFFFFF?text=Foto',
-    descricao: '',
-    local_encontrado: 'Laboratório 3',
-    data_horario_achado: '2026-06-28T15:30:00',
-    status: 'devolvido',
-    visibilidade_publica: true,
-    cadastrado_por: '',
-  },
-  {
-    id: '3',
-    titulo: 'Casaco jeans azul',
-    categoria: 'roupas',
-    foto_url: 'https://placehold.co/400x300/46BEFA/FFFFFF?text=Foto',
-    descricao: '',
-    local_encontrado: 'Auditório',
-    data_horario_achado: '2026-06-25T09:00:00',
-    status: 'aguardando',
-    visibilidade_publica: true,
-    cadastrado_por: '',
-  },
-]
+export const revalidate = 0 // sempre busca dados atualizados, nunca uma versão salva antiga
 
-export default function Home() {
+export default async function Home() {
+  const supabase = createServerClient()
+
+  const { data: itens, error } = await supabase
+    .from('itens_achados')
+    .select('*')
+    .eq('visibilidade_publica', true)
+    .order('criado_em', { ascending: false })
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
       <h1
@@ -50,8 +22,20 @@ export default function Home() {
         Mural de Achados e Perdidos
       </h1>
 
+      {error && (
+        <p style={{ color: 'var(--color-slate)' }}>
+          Não foi possível carregar os itens agora. Tente novamente em instantes.
+        </p>
+      )}
+
+      {!error && itens?.length === 0 && (
+        <p style={{ color: 'var(--color-slate)' }}>
+          Nenhum item cadastrado ainda. Assim que a coordenação registrar um achado, ele aparece aqui.
+        </p>
+      )}
+
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-        {itensFicticios.map((item) => (
+        {itens?.map((item: ItemAchado) => (
           <ItemCard key={item.id} item={item} />
         ))}
       </div>
