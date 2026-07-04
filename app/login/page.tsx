@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase'
 
-type Etapa = 'email' | 'senha-coordenacao' | 'mfa' | 'link-enviado'
+type Etapa = 'email' | 'senha-coordenacao' | 'link-enviado'
 
 export default function LoginPage() {
   const [etapa, setEtapa] = useState<Etapa>('email')
@@ -45,25 +45,17 @@ export default function LoginPage() {
     e.preventDefault()
     setCarregando(true)
     setErro('')
-
+  
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password: senha })
-
+  
+    setCarregando(false)
+  
     if (error) {
-      setCarregando(false)
       setErro('E-mail ou senha incorretos.')
       return
     }
-
-    // Verifica se essa conta precisa do segundo fator (MFA)
-    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel()
-    setCarregando(false)
-
-    if (aal?.nextLevel === 'aal2' && aal.nextLevel !== aal.currentLevel) {
-      setEtapa('mfa')
-      return
-    }
-
+  
     window.location.href = '/'
   }
 
@@ -142,26 +134,6 @@ export default function LoginPage() {
           />
           <button type="submit" disabled={carregando} className="px-4 py-2 rounded-md text-white font-medium disabled:opacity-60" style={{ backgroundColor: 'var(--color-azure)' }}>
             {carregando ? 'Entrando...' : 'Entrar'}
-          </button>
-        </form>
-      )}
-
-      {etapa === 'mfa' && (
-        <form onSubmit={handleMfaSubmit} className="flex flex-col gap-4">
-          <p className="text-sm" style={{ color: 'var(--color-slate)' }}>
-            Digite o código do seu aplicativo autenticador.
-          </p>
-          <input
-            type="text"
-            required
-            placeholder="000000"
-            value={codigoMfa}
-            onChange={(e) => setCodigoMfa(e.target.value)}
-            className="px-4 py-2 rounded-md border"
-            style={{ borderColor: 'var(--color-border)' }}
-          />
-          <button type="submit" disabled={carregando} className="px-4 py-2 rounded-md text-white font-medium disabled:opacity-60" style={{ backgroundColor: 'var(--color-azure)' }}>
-            {carregando ? 'Verificando...' : 'Confirmar'}
           </button>
         </form>
       )}

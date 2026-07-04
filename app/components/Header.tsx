@@ -5,19 +5,39 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase'
 
+type Perfil = {
+  email: string
+  role: 'aluno' | 'coordenacao'
+}
+
 export default function Header() {
   const [menuAberto, setMenuAberto] = useState(false)
-  const [emailUsuario, setEmailUsuario] = useState<string | null>(null)
+  const [perfil, setPerfil] = useState<Perfil | null>(null)
 
   useEffect(() => {
     const supabase = createClient()
 
-    supabase.auth.getUser().then(({ data }) => {
-      setEmailUsuario(data.user?.email ?? null)
-    })
+    async function carregarPerfil() {
+      const { data: { user } } = await supabase.auth.getUser()
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setEmailUsuario(session?.user?.email ?? null)
+      if (!user) {
+        setPerfil(null)
+        return
+      }
+
+      const { data } = await supabase
+        .from('perfis')
+        .select('email, role')
+        .eq('id', user.id)
+        .single()
+
+      setPerfil(data)
+    }
+
+    carregarPerfil()
+
+    const { data: listener } = supabase.auth.onAuthStateChange(() => {
+      carregarPerfil()
     })
 
     return () => listener.subscription.unsubscribe()
@@ -26,7 +46,7 @@ export default function Header() {
   async function handleSair() {
     const supabase = createClient()
     await supabase.auth.signOut()
-    setEmailUsuario(null)
+    setPerfil(null)
     window.location.href = '/'
   }
 
@@ -35,6 +55,12 @@ export default function Header() {
     { href: '/notificar', label: 'Perdi um item' },
     { href: '/minhas-notificacoes', label: 'Minhas notificações' },
   ]
+
+  const linksCoordenacao = [
+    { href: '/cadastrar-item', label: 'Cadastrar item' },
+  ]
+
+  const linksVisiveis = perfil?.role === 'coordenacao' ? [...links, ...linksCoordenacao] : links
 
   return (
     <header className="border-b" style={{ borderColor: 'var(--color-border)' }}>
@@ -47,15 +73,25 @@ export default function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm" style={{ fontFamily: 'var(--font-inter)' }}>
-          {links.map((link) => (
+          {linksVisiveis.map((link) => (
             <Link key={link.href} href={link.href} className="hover:opacity-70">
               {link.label}
             </Link>
           ))}
 
-          {emailUsuario ? (
+          {perfil ? (
             <div className="flex items-center gap-3">
-              <span style={{ color: 'var(--color-slate)' }}>{emailUsuario}</span>
+              <span style={{ color: 'var(--color-slate)' }}>
+                {perfil.email}
+                {perfil.role === 'coordenacao' && (
+                  <span
+                    className="ml-2 text-[10px] uppercase px-1.5 py-0.5 rounded"
+                    style={{ fontFamily: 'var(--font-ibm-plex-mono)', backgroundColor: 'rgba(0, 180, 250, 0.12)', color: 'var(--color-azure)' }}
+                  >
+                    coordenação
+                  </span>
+                )}
+              </span>
               <button onClick={handleSair} className="px-4 py-2 rounded-md text-sm border" style={{ borderColor: 'var(--color-border)' }}>
                 Sair
               </button>
@@ -76,13 +112,13 @@ export default function Header() {
 
       {menuAberto && (
         <nav className="md:hidden flex flex-col gap-1 px-6 pb-4 text-sm" style={{ fontFamily: 'var(--font-inter)' }}>
-          {links.map((link) => (
+          {linksVisiveis.map((link) => (
             <Link key={link.href} href={link.href} className="py-2" onClick={() => setMenuAberto(false)}>
               {link.label}
             </Link>
           ))}
-          {emailUsuario ? (
-            <button onClick={handleSair} className="mt-2 py-2 text-left">Sair ({emailUsuario})</button>
+          {perfil ? (
+            <button onClick={handleSair} className="mt-2 py-2 text-left">Sair ({perfil.email})</button>
           ) : (
             <Link href="/login" className="mt-2 px-4 py-2 rounded-md text-white text-sm text-center" style={{ backgroundColor: 'var(--color-azure)' }} onClick={() => setMenuAberto(false)}>
               Entrar
