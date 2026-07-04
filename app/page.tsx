@@ -5,7 +5,7 @@ import { ItemAchado } from '@/lib/types'
 export const revalidate = 0 // sempre busca dados atualizados, nunca uma versão salva antiga
 
 export default async function Home() {
-  const supabase = createServerClient()
+  const supabase = await createServerClient()
 
   const { data: itens, error } = await supabase
     .from('itens_achados')
