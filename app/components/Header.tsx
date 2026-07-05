@@ -68,10 +68,7 @@ export default function Header() {
     <header className="border-b" style={{ borderColor: 'var(--color-border)' }}>
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3" onClick={() => setMenuAberto(false)}>
-          <Image src="/logo-achados-perdidos.png" alt="Achados e Perdidos" width={50} height={50} />
-          <span className="text-lg font-bold" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--color-navy)' }}>
-            Achados&Perdidos
-          </span>
+            <Image src="/achados-perdidos.png" alt="Achados e Perdidos" width={100} height={100} />
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm" style={{ fontFamily: 'var(--font-inter)' }}>
