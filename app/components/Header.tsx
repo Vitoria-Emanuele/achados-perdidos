@@ -50,25 +50,27 @@ export default function Header() {
     window.location.href = '/'
   }
 
-  const links = [
+  const linksVisitanteEAluno = [
     { href: '/', label: 'Mural' },
     { href: '/notificar', label: 'Perdi um item' },
     { href: '/minhas-notificacoes', label: 'Minhas notificações' },
   ]
-
+  
   const linksCoordenacao = [
-    { href: '/cadastrar-item', label: 'Cadastrar item' },
+    { href: '/', label: 'Mural' },
+    { href: '/coordenacao/cadastrar-item', label: 'Painel da coordenação' },
   ]
-
-  const linksVisiveis = perfil?.role === 'coordenacao' ? [...links, ...linksCoordenacao] : links
+  
+  const linksVisiveis = perfil?.role === 'coordenacao' ? linksCoordenacao : linksVisitanteEAluno
+  
 
   return (
     <header className="border-b" style={{ borderColor: 'var(--color-border)' }}>
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3" onClick={() => setMenuAberto(false)}>
-          <Image src="/logo-achados-perdidos.png" alt="Achados e Perdidos" width={36} height={36} />
+          <Image src="/logo-achados-perdidos.png" alt="Achados e Perdidos" width={50} height={50} />
           <span className="text-lg font-bold" style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--color-navy)' }}>
-            Achados &amp; Perdidos
+            Achados&Perdidos
           </span>
         </Link>
 
@@ -81,8 +83,7 @@ export default function Header() {
 
           {perfil ? (
             <div className="flex items-center gap-3">
-              <span style={{ color: 'var(--color-slate)' }}>
-                {perfil.email}
+              <span style={{ color: 'var(--color-slate)' }}>               
                 {perfil.role === 'coordenacao' && (
                   <span
                     className="ml-2 text-[10px] uppercase px-1.5 py-0.5 rounded"

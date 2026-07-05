@@ -109,6 +109,16 @@ Acesso restrito à coordenação (Row Level Security). Contém dados pessoais de
 
 * A verificação do papel (role) é feita consultando a tabela perfis pelo id do usuário autenticado (auth.uid()), não por um campo solto no token de login.
 
+## 4.1 Politica de escritaimplementadas:
+
+* itens_achados (insert): somente usuários cujo registro em perfis tenha role = "coordenação".
+* itens_achados (update): somente coordenação pode atualizar itens (ex: marcar como devolvido).
+* notificacoes_perdidas (update): somente coordenação pode moderar (aprovar/rejeitar/remover foto).
+* registros_devolucao (insert): somente coordenação pode registrar uma devolução.
+* storage.objects, bucket fotos-itens (insert): somente coordenação pode enviar fotos de itens achados.
+* Cadastro de notificação de perdido (insert em notificacoes_perdidos) e comentários (insert em comentarios): liberado a qualquer usuário autenticado política a ser criada quando essas telas forem implementadas.
+
+
 # 5\. Convenções
 
 * Nomes de tabela no plural, em snake\_case.

@@ -1,7 +1,7 @@
 # Autenticação — Sistema de Achados e Perdidos
 
 Documentação técnica do fluxo de login (RF04) e das políticas de segurança
-associadas. Complementa `BANCO_DE_DADOS.md`.
+associadas. Complementa `BD_modelo_tecnico.md`.
 
 ## Como funciona o login por link mágico (aluno — RF04)
 
@@ -103,22 +103,23 @@ using (
   )
 );
 ```
+## limitação atual de envio de e-mail
 
-## Limitação do serviço de e-mail padrão do Supabase
+### Limite do serviço padrão do Supabase
 
-Sem configurar um provedor de e-mail próprio (SMTP), o Supabase aplica duas
-restrições no envio de link mágico, que já geraram confusão durante os testes:
+- **2 e-mails de autenticação por hora**, no total do projeto.
+- Esse limite é compartilhado entre todos os usuários — não é por pessoa, é
+  por projeto inteiro.
 
-- **Só envia para e-mails cadastrados como membros da organização** no
-  Supabase (Settings da organização → Team). Qualquer outro e-mail recebe erro
-  ao tentar logar.
-- **Limite de 2 e-mails de autenticação por hora**, no total do projeto.
 
-Isso é adequado só para desenvolvimento. **Antes de qualquer teste real com
-alunos ou coordenação fora do grupo**, é necessário configurar um provedor de
-e-mail próprio via SMTP (ex.: Resend, que tem plano gratuito) em
-**Authentication → SMTP Settings** no Supabase. Sem isso, o login por link
-mágico não funciona para ninguém fora da lista de membros do projeto.
+### Pendência antes de um teste real com múltiplos alunos
+
+Este limite de 2 e-mails/hora **inviabiliza o uso real do sistema por mais de
+duas pessoas simultâneas por hora**. Antes de qualquer demonstração com a
+coordenação de verdade ou com uma turma de alunos, será necessário revisitar
+esta decisão — seja configurando um provedor de e-mail com domínio próprio
+verificado (Resend ou outro), seja avaliando alternativas de custo zero
+(ex.: domínio institucional da UFPB, se disponível).
 
 ## Sobre o MFA (segundo fator) — decisão descartada
 
