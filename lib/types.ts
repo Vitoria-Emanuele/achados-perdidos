@@ -34,3 +34,14 @@ export interface NotificacaoPerdido {
   autor_id: string
   moderado_por: string | null
 }
+
+export interface Comentario {
+  id: string
+  texto: string
+  autor_id: string
+  notificacao_id: string
+  denunciado: boolean
+  status: 'visivel' | 'removido'
+  criado_em: string
+  perfis?: { email: string }
+}
