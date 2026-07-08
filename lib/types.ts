@@ -33,6 +33,7 @@ export interface NotificacaoPerdido {
   item_vinculado_id: string | null
   autor_id: string
   moderado_por: string | null
+  lida: boolean
 }
 
 export interface Comentario {

@@ -34,7 +34,9 @@ export default function ModerarPage() {
     const atualizacao: Record<string, unknown> = {
       status_moderacao: decisao,
       moderado_por: user?.id,
+      lida: false,
     }
+    
     if (removerFoto) atualizacao.foto_url = null
 
     await supabase.from('notificacoes_perdidos').update(atualizacao).eq('id', id)

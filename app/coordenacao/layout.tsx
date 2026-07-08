@@ -18,6 +18,7 @@ export default function CoordenacaoLayout({ children }: { children: React.ReactN
   const abas = [
     { href: '/coordenacao/cadastrar-item', label: 'Cadastrar item' },
     { href: '/coordenacao/moderar', label: 'Moderar notificações' },
+    { href: '/coordenacao/vincular', label: 'Vincular itens' },
     { href: '/coordenacao/devolucoes', label: 'Registrar devolução' },
   ]
 

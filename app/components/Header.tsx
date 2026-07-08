@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase'
+import SininhoNotificacoes from '@/app/components/SininhoNotificacoes' 
 
 type Perfil = {
+  id: string
   email: string
   role: 'aluno' | 'coordenacao'
 }
@@ -27,7 +29,7 @@ export default function Header() {
 
       const { data } = await supabase
         .from('perfis')
-        .select('email, role')
+        .select('id, email, role')
         .eq('id', user.id)
         .single()
 
@@ -53,7 +55,6 @@ export default function Header() {
   const linksVisitanteEAluno = [
     { href: '/', label: 'Mural' },
     { href: '/notificar', label: 'Perdi um item' },
-    { href: '/minhas-notificacoes', label: 'Minhas notificações' },
   ]
   
   const linksCoordenacao = [
@@ -69,7 +70,6 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3" onClick={() => setMenuAberto(false)}>
           <Image src="/logo-apci.svg" alt="Achados e Perdidos" width={60} height={60} />
-
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm" style={{ fontFamily: 'var(--font-inter)' }}>
@@ -79,9 +79,14 @@ export default function Header() {
             </Link>
           ))}
 
+          {/* 2. Renderização do sininho no Desktop (Apenas se logado e NÃO for coordenação) */}
+          {perfil && perfil.role !== 'coordenacao' && (
+            <SininhoNotificacoes userId={perfil.id} />
+          )}
+
           {perfil ? (
             <div className="flex items-center gap-3">
-              <span style={{ color: 'var(--color-slate)' }}>               
+              <span style={{ color: 'var(--color-slate)' }}>              
                 {perfil.role === 'coordenacao' && (
                   <span
                     className="ml-2 text-[10px] uppercase px-1.5 py-0.5 rounded"
@@ -109,6 +114,7 @@ export default function Header() {
         </button>
       </div>
 
+      {/* Menu Mobile */}
       {menuAberto && (
         <nav className="md:hidden flex flex-col gap-1 px-6 pb-4 text-sm" style={{ fontFamily: 'var(--font-inter)' }}>
           {linksVisiveis.map((link) => (
@@ -116,6 +122,15 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          
+          {/* Adicionado também no mobile para manter a usabilidade consistente */}
+          {perfil && perfil.role !== 'coordenacao' && (
+            <div className="py-2 border-t border-b my-1" style={{ borderColor: 'var(--color-border)' }}>
+              <span className="text-xs block mb-1" style={{ color: 'var(--color-slate)' }}>Notificações:</span>
+              <SininhoNotificacoes userId={perfil.id} />
+            </div>
+          )}
+
           {perfil ? (
             <button onClick={handleSair} className="mt-2 py-2 text-left">Sair ({perfil.email})</button>
           ) : (
