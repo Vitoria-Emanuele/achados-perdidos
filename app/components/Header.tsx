@@ -65,10 +65,11 @@ export default function Header() {
   
 
   return (
-    <header className="border-b" style={{ borderColor: 'var(--color-border)' }}>
+    <header style={{ backgroundColor: 'var(--color-bg)' }}>
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3" onClick={() => setMenuAberto(false)}>
-            <Image src="/logo-achados-perdidos.png" alt="Achados e Perdidos" width={100} height={100} />
+          <Image src="/logo-apci.svg" alt="Achados e Perdidos" width={60} height={60} />
+
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm" style={{ fontFamily: 'var(--font-inter)' }}>

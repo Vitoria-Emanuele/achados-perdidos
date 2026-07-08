@@ -21,50 +21,60 @@ export default async function Home() {
     .order('criado_em', { ascending: false })
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10">
+    <header style={{ backgroundColor: 'var(--color-bg)' }}>
+      <div className="max-w-6xl mx-auto px-6 py-10">
+        <h1
+          className="text-3xl font-bold mb-10"
+          style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--color-navy)' }}
+        >
+          Mural de Achados e Perdidos
+        </h1>
 
-      <h1
-        className="text-2xl font-bold mb-6"
-        style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--color-navy)' }}
-      >
-        Mural de Achados e Perdidos
-      </h1>
-
-      {erroItens && (
-        <p style={{ color: 'var(--color-slate)' }}>
-          Não foi possível carregar os itens agora. Tente novamente em instantes.
-        </p>
-      )}
-
-      {!erroItens && itens?.length === 0 && (
-        <p style={{ color: 'var(--color-slate)' }}>
-          Nenhum item cadastrado ainda. Assim que a coordenação registrar um achado, ele aparece aqui.
-        </p>
-      )}
-
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-        {itens?.map((item: ItemAchado) => (
-          <ItemCard key={item.id} item={item} />
-        ))}
-      </div>
-
-      {notificacoes && notificacoes.length > 0 && (
-        <div className="mb-10">
+        <section className="mb-12">
           <h2
             className="text-lg font-bold mb-4"
             style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--color-navy)' }}
           >
-            Alunos estão procurando
+            Achados
           </h2>
 
-          <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
-            {notificacoes.map((n: NotificacaoPerdido) => (
-              <NotificacaoCard key={n.id} notificacao={n} />
+          {erroItens && (
+            <p style={{ color: 'var(--color-slate)' }}>
+              Não foi possível carregar os itens agora. Tente novamente em instantes.
+            </p>
+          )}
+
+          {!erroItens && itens?.length === 0 && (
+            <p style={{ color: 'var(--color-slate)' }}>
+              Nenhum item cadastrado ainda. Assim que a coordenação registrar um achado, ele aparece aqui.
+            </p>
+          )}
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+            {itens?.map((item: ItemAchado) => (
+              <ItemCard key={item.id} item={item} />
             ))}
           </div>
-        </div>
-      )}
+        </section>
 
-    </div>
+        {notificacoes && notificacoes.length > 0 && (
+          <section>
+            <h2
+              className="text-lg font-bold mb-4"
+              style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--color-navy)' }}
+            >
+              Perdidos
+            </h2>
+
+            <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
+              {notificacoes.map((n: NotificacaoPerdido) => (
+                <NotificacaoCard key={n.id} notificacao={n} />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+
+    </header>
   )
 }

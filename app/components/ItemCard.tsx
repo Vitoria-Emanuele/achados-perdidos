@@ -42,22 +42,43 @@ export default function ItemCard({ item }: { item: ItemAchado }) {
             </div>
 
             <h3
-                className="text-sm sm:text-base font-semibold truncate"
-                style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--color-navy)' }}
+              className="text-sm sm:text-base font-semibold truncate"
+              style={{ fontFamily: 'var(--font-space-grotesk)', color: 'var(--color-navy)' }}
             >
-                {item.titulo}
+              {item.titulo}
             </h3>
 
-            <p className="text-xs sm:text-sm truncate" style={{ color: 'var(--color-slate)', fontFamily: 'var(--font-inter)' }}>
-                {item.local_encontrado ?? 'Local não informado'}
+            <p
+              className="text-xs sm:text-sm line-clamp-2"
+              style={{ color: 'var(--color-slate)', fontFamily: 'var(--font-inter)' }}
+            >
+              Descrição: {item.descricao}
             </p>
 
             <p
-                className="text-[10px] sm:text-xs mt-auto pt-1 sm:pt-2"
-                style={{ fontFamily: 'var(--font-ibm-plex-mono)', color: 'var(--color-slate)' }}
+              className="text-[10px] sm:text-xs font-medium mt-1"
+              style={{ color: 'var(--color-navy)', fontFamily: 'var(--font-inter)' }}
             >
-                {new Date(item.data_horario_achado).toLocaleDateString('pt-BR')}
+              Dados do encontro:
             </p>
+
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className="flex items-center gap-1 text-[10px] sm:text-xs" style={{ color: 'var(--color-slate)' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                {item.local_encontrado ?? 'Local não informado'}
+              </span>
+
+              <span className="flex items-center gap-1 text-[10px] sm:text-xs" style={{ fontFamily: 'var(--font-ibm-plex-mono)', color: 'var(--color-slate)' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <path d="M16 2v4M8 2v4M3 10h18" />
+                </svg>
+                {new Date(item.data_horario_achado).toLocaleDateString('pt-BR')}
+              </span>
+            </div>
         </div>
     </div>
   )
