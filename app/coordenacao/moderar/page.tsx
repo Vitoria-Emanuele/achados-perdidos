@@ -8,6 +8,7 @@ export default function ModerarPage() {
   const [notificacoes, setNotificacoes] = useState<NotificacaoPerdido[]>([])
   const [carregando, setCarregando] = useState(true)
   const [processando, setProcessando] = useState<string | null>(null)
+  const [motivoRejeicao, setMotivoRejeicao] = useState<Record<string, string>>({})
 
   async function carregar() {
     setCarregando(true)
@@ -38,6 +39,7 @@ export default function ModerarPage() {
     }
     
     if (removerFoto) atualizacao.foto_url = null
+    if (decisao == 'rejeitado') atualizacao.motivo_rejeicao = motivoRejeicao[id] || null
 
     await supabase.from('notificacoes_perdidos').update(atualizacao).eq('id', id)
 
@@ -100,6 +102,15 @@ export default function ModerarPage() {
                   Aprovar sem foto
                 </button>
               )}
+
+              <input
+                type="text"
+                placeholder="Motivo da rejeição (opcional, mas recomendado)"
+                value={motivoRejeicao[n.id] ?? ''}
+                onChange={(e) => setMotivoRejeicao({ ...motivoRejeicao, [n.id]: e.target.value })}
+                className="w-full px-3 py-1.5 rounded-md border text-sm mb-2"
+                style={{ borderColor: 'var(--color-border)' }}
+              />
 
               <button
                 onClick={() => handleModerar(n.id, 'rejeitado')}

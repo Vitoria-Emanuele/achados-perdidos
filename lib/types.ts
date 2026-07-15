@@ -34,6 +34,7 @@ export interface NotificacaoPerdido {
   autor_id: string
   moderado_por: string | null
   lida: boolean
+  motivo_rejeicao: string | null
 }
 
 export interface Comentario {

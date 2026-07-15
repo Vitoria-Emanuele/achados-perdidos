@@ -8,10 +8,12 @@ export default function ChatComentarios({
   notificacaoId,
   comentariosIniciais,
   usuarioLogado,
+  permiteComentar,
 }: {
   notificacaoId: string
   comentariosIniciais: Comentario[]
   usuarioLogado: boolean
+  permiteComentar: boolean
 }) {
   const [comentarios, setComentarios] = useState(comentariosIniciais)
   const [texto, setTexto] = useState('')
@@ -87,7 +89,12 @@ export default function ChatComentarios({
         ))}
       </div>
 
-      {usuarioLogado ? (
+      
+
+      { !permiteComentar ? (
+        <p className='text-sm' style={{color:'var(--color-slate)'}}> Comentários ficam disponíveis quando a notificação é aprovada e publicada no mural. </p>
+
+      ):usuarioLogado ? (
         <form onSubmit={handleEnviar} className="flex gap-2">
           <input
             type="text"

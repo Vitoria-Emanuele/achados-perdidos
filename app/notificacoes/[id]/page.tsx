@@ -48,6 +48,16 @@ export default async function NotificacaoDetalhePage({ params }: { params: Promi
 
       <p className="mt-2" style={{ color: 'var(--color-slate)' }}>{notificacao.descricao}</p>
 
+      {notificacao.status_moderacao === 'rejeitado' && (
+      <div
+        className="mt-4 p-3 rounded-md text-sm"
+        style={{ backgroundColor: 'rgba(209, 67, 67, 0.08)', color: '#7A2323' }}
+      >
+        <strong>Notificação rejeitada.</strong>{' '}
+        {notificacao.motivo_rejeicao || 'Nenhum motivo foi informado pela coordenação.'}
+      </div>
+      )}
+
       <p className="text-sm mt-1" style={{ color: 'var(--color-slate)' }}>
         {notificacao.local_perdido ?? 'Local não informado'} — {new Date(notificacao.data_horario_perda).toLocaleDateString('pt-BR')}
       </p>
@@ -58,6 +68,8 @@ export default async function NotificacaoDetalhePage({ params }: { params: Promi
         notificacaoId={notificacao.id}
         comentariosIniciais={comentarios ?? []}
         usuarioLogado={!!user}
+        permiteComentar={notificacao.status_moderacao === 'aprovado'}
+
       />
     </div>
   )
