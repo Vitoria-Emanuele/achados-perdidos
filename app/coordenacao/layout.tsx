@@ -48,12 +48,21 @@ export default function CoordenacaoLayout({ children }: { children: React.ReactN
         Painel da coordenação
       </h1>
 
-      <nav className="flex gap-2 border-b mb-6" style={{ borderColor: 'var(--color-border)' }}>
+      {/* 
+        Ajuste aqui:
+        - 'overflow-x-auto': Permite rolagem horizontal se o conteúdo passar do tamanho da tela.
+        - 'whitespace-nowrap': Garante que os links não quebrem linha estranhamente no meio do texto.
+        - 'scrollbar-none': (Opcional) Esconde a barra de rolagem nativa para ficar visualmente limpo.
+      */}
+      <nav 
+        className="flex gap-2 border-b mb-6 overflow-x-auto whitespace-nowrap scrollbar-none" 
+        style={{ borderColor: 'var(--color-border)' }}
+      >
         {abas.map((aba) => (
           <Link
             key={aba.href}
             href={aba.href}
-            className="px-4 py-2 text-sm"
+            className="px-4 py-2 text-sm inline-block"
             style={{
               borderBottom: pathname === aba.href ? '2px solid var(--color-azure)' : '2px solid transparent',
               color: pathname === aba.href ? 'var(--color-azure)' : 'var(--color-slate)',

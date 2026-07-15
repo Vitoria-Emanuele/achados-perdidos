@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase'
 import SininhoNotificacoes from '@/app/components/SininhoNotificacoes' 
+import SininhoCoordenacao from '@/app/components/SininhoCoordenacao'
 
 type Perfil = {
   id: string
@@ -64,7 +65,6 @@ export default function Header() {
   
   const linksVisiveis = perfil?.role === 'coordenacao' ? linksCoordenacao : linksVisitanteEAluno
   
-
   return (
     <header style={{ backgroundColor: 'var(--color-bg)' }}>
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -72,6 +72,7 @@ export default function Header() {
           <Image src="/logo-apci.svg" alt="Achados e Perdidos" width={60} height={60} />
         </Link>
 
+        {/* Menu Desktop */}
         <nav className="hidden md:flex items-center gap-6 text-sm" style={{ fontFamily: 'var(--font-inter)' }}>
           {linksVisiveis.map((link) => (
             <Link key={link.href} href={link.href} className="hover:opacity-70">
@@ -79,8 +80,8 @@ export default function Header() {
             </Link>
           ))}
 
-          {/* 2. Renderização do sininho no Desktop (Apenas se logado e NÃO for coordenação) */}
-          {perfil && perfil.role !== 'coordenacao' && (
+          {perfil?.role === 'coordenacao' && <SininhoCoordenacao />}
+          {perfil?.role !== 'coordenacao' && perfil && (
             <SininhoNotificacoes userId={perfil.id} />
           )}
 
@@ -107,11 +108,19 @@ export default function Header() {
           )}
         </nav>
 
-        <button className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8" onClick={() => setMenuAberto(!menuAberto)} aria-label="Abrir menu">
-          <span className="w-6 h-0.5" style={{ backgroundColor: 'var(--color-navy)' }} />
-          <span className="w-6 h-0.5" style={{ backgroundColor: 'var(--color-navy)' }} />
-          <span className="w-6 h-0.5" style={{ backgroundColor: 'var(--color-navy)' }} />
-        </button>
+        {/* Área Mobile (Sininho + Hambúrguer lado a lado) */}
+        <div className="flex items-center gap-4 md:hidden">
+          {perfil?.role === 'coordenacao' && <SininhoCoordenacao />}
+          {perfil?.role !== 'coordenacao' && perfil && (
+            <SininhoNotificacoes userId={perfil.id} />
+          )}
+
+          <button className="flex flex-col justify-center gap-1.5 w-8 h-8" onClick={() => setMenuAberto(!menuAberto)} aria-label="Abrir menu">
+            <span className="w-6 h-0.5" style={{ backgroundColor: 'var(--color-navy)' }} />
+            <span className="w-6 h-0.5" style={{ backgroundColor: 'var(--color-navy)' }} />
+            <span className="w-6 h-0.5" style={{ backgroundColor: 'var(--color-navy)' }} />
+          </button>
+        </div>
       </div>
 
       {/* Menu Mobile */}
@@ -122,14 +131,6 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
-          
-          {/* Adicionado também no mobile para manter a usabilidade consistente */}
-          {perfil && perfil.role !== 'coordenacao' && (
-            <div className="py-2 border-t border-b my-1" style={{ borderColor: 'var(--color-border)' }}>
-              <span className="text-xs block mb-1" style={{ color: 'var(--color-slate)' }}>Notificações:</span>
-              <SininhoNotificacoes userId={perfil.id} />
-            </div>
-          )}
 
           {perfil ? (
             <button onClick={handleSair} className="mt-2 py-2 text-left">Sair ({perfil.email})</button>
