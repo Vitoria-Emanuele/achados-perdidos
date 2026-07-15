@@ -40,4 +40,4 @@ de requisitos do projeto.
 
 ## Documentação
 
-- Documento de requisitos detalhado: *(anexar link do Wiki ou pasta /docs quando disponível)*
+- Documento de requisitos detalhado: https://docs.google.com/document/d/1JthjNlQOfYEg-5HpM8rwsZeli39Sl0RR/edit?usp=drive_link&ouid=115994166069042830446&rtpof=true&sd=true
