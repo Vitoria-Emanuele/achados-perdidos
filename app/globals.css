@@ -3,11 +3,11 @@
 :root {
   --color-bg: #FFFFFF;
   --color-surface: #F3F8FC;
-  --color-navy: #001B2E;
-  --color-azure: #00B4FA;
-  --color-azure-soft: #46BEFA;
+  --color-navy: #015C91;
+  --color-azure: #2C82B5;
+  --color-azure-soft: #88CDF6;
   --color-slate: #5B6B76;
-  --color-border: #DCE6ED;
+  --color-border: #98C5E2;
 }
 
 body {

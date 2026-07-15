@@ -2,11 +2,7 @@ import Image from 'next/image'
 
 export default function Footer() {
   return (
-    <footer className="border-t mt-16"
-    style={{
-      borderColor: 'var(--color-border)',
-      backgroundColor: 'var(--color-bg)'
-    }}
+    <footer style={{ color: 'var(--color-bg)'  }}
     >
       <div
         className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm"

@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR" className={`${spaceGrotesk.variable} ${inter.variable} ${ibmPlexMono.variable}`}>
       <body>
         <Header />
-        <main className="min-h-screen">{children}</main>
+        <main className="min-h-screen" style={{ backgroundColor: 'var(--color-surface)' }}>{children}</main>
         <Footer />
       </body>
     </html>
