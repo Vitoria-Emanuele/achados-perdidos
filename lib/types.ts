@@ -46,4 +46,5 @@ export interface Comentario {
   status: 'visivel' | 'removido'
   criado_em: string
   perfis?: { email: string }
+  notificacoes_perdidos?: { titulo: string }
 }

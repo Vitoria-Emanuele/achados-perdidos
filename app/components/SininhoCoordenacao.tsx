@@ -8,7 +8,10 @@ export default function SininhoCoordenacao() {
   const [pendentesModeracao, setPendentesModeracao] = useState(0)
   const [pendentesVinculo, setPendentesVinculo] = useState(0)
   const [aberto, setAberto] = useState(false)
+  const [pendentesComentarios, setPendentesComentarios] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
+  
+
 
   async function carregar() {
     const supabase = createClient()
@@ -26,6 +29,14 @@ export default function SininhoCoordenacao() {
 
     setPendentesModeracao(moderacao ?? 0)
     setPendentesVinculo(vinculo ?? 0)
+
+    const { count: comentarios } = await supabase
+      .from('comentarios')
+      .select('*', { count: 'exact', head: true })
+      .eq('denunciado', true)
+      .eq('status', 'visivel')
+
+    setPendentesComentarios(comentarios ?? 0)
   }
 
   useEffect(() => {
@@ -42,7 +53,7 @@ export default function SininhoCoordenacao() {
     return () => document.removeEventListener('mousedown', fecharAoClicarFora)
   }, [])
 
-  const total = pendentesModeracao + pendentesVinculo
+  const total = pendentesModeracao + pendentesVinculo + pendentesComentarios
 
   return (
     <div className="relative" ref={ref}>
@@ -85,11 +96,23 @@ export default function SininhoCoordenacao() {
           <Link
             href="/coordenacao/vincular"
             onClick={() => setAberto(false)}
-            className="flex items-center justify-between px-4 py-3 hover:opacity-80"
+            className="flex items-center justify-between px-4 py-3 border-b hover:opacity-80"
+            style={{ borderColor: 'var(--color-border)' }}
           >
             <span className="text-sm" style={{ color: 'var(--color-navy)' }}>Aguardando vínculo</span>
             <span className="text-sm font-semibold" style={{ color: pendentesVinculo > 0 ? '#D14343' : 'var(--color-slate)' }}>
               {pendentesVinculo}
+            </span>
+          </Link>
+
+          <Link
+            href="/coordenacao/comentarios-denunciados"
+            onClick={() => setAberto(false)}
+            className="flex items-center justify-between px-4 py-3 hover:opacity-80"
+          >
+            <span className="text-sm" style={{ color: 'var(--color-navy)' }}>Comentários denunciados</span>
+            <span className="text-sm font-semibold" style={{ color: pendentesComentarios > 0 ? '#D14343' : 'var(--color-slate)' }}>
+                  {pendentesComentarios}
             </span>
           </Link>
 
