@@ -40,10 +40,12 @@ export default function VincularPage() {
 
     setProcessando(notificacaoId)
     const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
 
     await supabase
       .from('notificacoes_perdidos')
-      .update({ item_vinculado_id: itemId, lida: false })
+      .update({ item_vinculado_id: itemId, lida: false, moderado_por: user?.id })
       .eq('id', notificacaoId)
 
     setProcessando(null)

@@ -28,7 +28,9 @@ export default function ComentariosDenunciadosPage() {
   async function handleRemover(id: string) {
     setProcessando(id)
     const supabase = createClient()
-    await supabase.from('comentarios').update({ status: 'removido' }).eq('id', id)
+    const {data: {user}} = await supabase.auth.getUser()
+
+    await supabase.from('comentarios').update({ status: 'removido', moderado_por: user?.id, moderado_em: new Date().toISOString() }).eq('id', id)
     setProcessando(null)
     carregar()
   }
@@ -36,7 +38,9 @@ export default function ComentariosDenunciadosPage() {
   async function handleManter(id: string) {
     setProcessando(id)
     const supabase = createClient()
-    await supabase.from('comentarios').update({ denunciado: false }).eq('id', id)
+    const {data: {user}} = await supabase.auth.getUser()
+
+    await supabase.from('comentarios').update({ denunciado: false, moderado_por: user?.id, moderado_em: new Date().toISOString() }).eq('id', id)
     setProcessando(null)
     carregar()
   }

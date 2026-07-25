@@ -45,6 +45,8 @@ export interface Comentario {
   denunciado: boolean
   status: 'visivel' | 'removido'
   criado_em: string
+  moderado_por: string | null
+  moderado_em: string | null
   perfis?: { email: string }
   notificacoes_perdidos?: { titulo: string }
 }
