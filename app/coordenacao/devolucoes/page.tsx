@@ -24,6 +24,18 @@ export default function DevolucoesPage() {
     setItens(data ?? [])
   }
 
+  async function handleDescarte(item: ItemAchado, destino: 'doado' | 'triturado') {
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+  
+    await supabase
+      .from('itens_achados')
+      .update({ status: destino, status_atualizado_por: user?.id, status_atualizado_em: new Date().toISOString() })
+      .eq('id', item.id)
+  
+    carregar()
+  }
+
   useEffect(() => {
     carregar()
   }, [])
@@ -146,6 +158,20 @@ export default function DevolucoesPage() {
           >
             Registrar devolução
           </button>
+
+          <button
+            onClick={() => {
+              if (confirm(`Confirma marcar "${item.titulo}" como ${item.categoria === 'documentos' ? 'triturado' : 'doado'}? Essa ação não pode ser desfeita.`)) {
+                handleDescarte(item, item.categoria === 'documentos' ? 'triturado' : 'doado')
+              }
+            }}
+            className="px-3 py-1.5 rounded-md text-sm border"
+            style={{ borderColor: '#D14343', color: '#D14343' }}
+          >
+            {item.categoria === 'documentos' ? 'Marcar como triturado' : 'Marcar como doado'}
+          </button>
+
+
         </div>
       ))}
     </div>

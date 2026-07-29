@@ -20,7 +20,10 @@ export default function CoordenacaoLayout({ children }: { children: React.ReactN
     { href: '/coordenacao/moderar', label: 'Moderar notificações' },
     { href: '/coordenacao/vincular', label: 'Vincular itens' },
     { href: '/coordenacao/devolucoes', label: 'Registrar devolução' },
+    { href: '/coordenacao/registros-devolucao', label: 'Histórico de devoluções' },
+
     { href: '/coordenacao/comentarios-denunciados', label: 'Comentários denunciados' },
+    
 
   ]
 
