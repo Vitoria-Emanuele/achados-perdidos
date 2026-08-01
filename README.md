@@ -44,7 +44,7 @@ npm run dev
 Acesse http://localhost:3000
 
 É necessário criar um arquivo `.env.local` na raiz do projeto com as
-credenciais do Supabase — ver `docs/autenticacao_A&P.docx`.
+credenciais do Supabase.
 
 ## Testes
 
@@ -54,20 +54,12 @@ npm run test:rls
 
 Executa a verificação automatizada das políticas de segurança (Row Level
 Security) do banco de dados. Requer um arquivo `.env.test.local` (não
-versionado) — ver `docs/plano_teste_A&P.docx`, Seção 6.
+versionado).
 
-Os demais testes (funcionais e de sistema) são manuais, roteirizados em
-`plano_teste_A&P.docx`.
+Os demais testes (funcionais e de sistema) são manuais, roteirizados.
 
 ## Documentação
 
-https://docs.google.com/document/d/1JthjNlQOfYEg-5HpM8rwsZeli39Sl0RR/edit?usp=drive_link&ouid=115994166069042830446&rtpof=true&sd=true
-
-- `Requisitos_A&P.docx` — requisitos, atores, regras de negócio
-- `Modelo_de_Dados_A&P.docx` — modelo de dados, diagrama ER, políticas de segurança
-- `Diagramas_do_Sistema_A&P.docx` — diagrama de casos de uso e diagrama de arquitetura
-- `autenticacao_A&P.docx` — fluxo de login e configuração necessária
-- `docs/plano_teste_A&P.docx` — metodologia, casos de teste e registro de defeitos
 
 ## Metodologia
 
