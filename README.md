@@ -1,8 +1,7 @@
 # Sistema de Achados e Perdidos — CI/UFPB
 
 Sistema centralizado para gestão de itens achados e perdidos no Centro de
-Informática da UFPB, sendo um mural
-digital com controle de acesso, moderação e auditoria.
+Informática da UFPB.
 
 🔗 **Site:** https://achados-perdidos-blue.vercel.app
 
