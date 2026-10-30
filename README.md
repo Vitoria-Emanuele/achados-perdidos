@@ -58,7 +58,8 @@ versionado).
 
 Os demais testes (funcionais e de sistema) são manuais, roteirizados.
 
-## Documentação
+## Documentação:
+https://docs.google.com/document/d/1Kfc6lMH2HYj-lWTSZ9v8TLskQ_LONC0z/edit?usp=sharing&ouid=115994166069042830446&rtpof=true&sd=true
 
 
 ## Metodologia
